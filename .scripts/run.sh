@@ -30,6 +30,7 @@ podman build -t todo-app -f backend/containers/app/Containerfile .
 if ! podman container exists app; then
   echo "🚀 Starting FastAPI app container..."
   podman run -d \
+    --env-file .env \
     --name app \
     --pod todopod \
     todo-app
