@@ -1,0 +1,9 @@
+# vscode
+.vscode/
+todo-app.code-workspace
+
+# virtual environment
+.venv/
+
+# env
+.env

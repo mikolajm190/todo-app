@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+fastapi = {extras = ["standard"], version = "==0.115.12"}
+sqlalchemy = "==2.0.41"
+psycopg2-binary = "==2.9.10"
+
+[dev-packages]
+pytest = "==8.3.5"
+selenium = "==4.33.0"
+
+[requires]
+python_version = "3.10"
