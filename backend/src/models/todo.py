@@ -4,7 +4,7 @@ from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 
-from base import Base
+from src.models.base import Base
 
 class Todo(Base):
     '''Class representing a todo'''
@@ -18,4 +18,4 @@ class Todo(Base):
         )
     title: Mapped[str] = mapped_column(String(50), nullable=False)
     description: Mapped[str] = mapped_column(String(200))
-    is_done: Mapped[bool] = mapped_column(nullable=False, default=False)
+    done: Mapped[bool] = mapped_column(nullable=False, default=False)
