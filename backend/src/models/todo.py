@@ -6,6 +6,7 @@ from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 
 from src.models.base import Base
 
+
 class Todo(Base):
     '''Class representing a todo'''
 
@@ -17,5 +18,5 @@ class Todo(Base):
         default=uuid4
         )
     title: Mapped[str] = mapped_column(String(50), nullable=False)
-    description: Mapped[str] = mapped_column(String(200))
+    description: Mapped[str | None] = mapped_column(String(200))
     done: Mapped[bool] = mapped_column(nullable=False, default=False)
