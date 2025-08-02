@@ -15,8 +15,9 @@ class TodoService:
     def __init__(self, dao: TodoDAO = Depends()) -> None:
         self.dao = dao
 
-    def get_todos(self, limit: int, offset: int) -> list[TodoDTO]:
-        return [TodoDTO.model_validate(todo) for todo in self.dao.get_all(limit, offset)]
+    def get_todos(self, limit: int, offset: int, done: bool | None) -> list[TodoDTO]:
+        return [TodoDTO.model_validate(todo)
+                for todo in self.dao.get_all(limit, offset, done)]
     
     def get_todo(self, todo_id: UUID) -> TodoDTO:
         todo = self.dao.get_by_id(todo_id)

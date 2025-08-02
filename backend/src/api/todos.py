@@ -1,6 +1,7 @@
+from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, Depends, Query
 
 from src.services.todo import TodoService
 from src.schemas.todo.create_todo_request import TodoCreateDTO
@@ -12,11 +13,12 @@ router = APIRouter()
 
 @router.get("/")
 def read_todos(
-    limit: int = 9,
-    offset: int = 0,
+    limit: Annotated[int, Query(gt=0)] = 9,
+    offset: Annotated[int, Query(ge=0)] = 0,
+    done: bool | None = None,
     service: TodoService = Depends()
     ) -> list[TodoDTO]:
-    return service.get_todos(limit, offset)
+    return service.get_todos(limit, offset, done)
 
 
 @router.get(
