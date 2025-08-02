@@ -10,25 +10,24 @@ from src.schemas.todo.todo_response import TodoDTO
 router = APIRouter()
 
 
-@router.get("/", response_model=list[TodoDTO])
+@router.get("/")
 def read_todos(
     limit: int = 9,
     offset: int = 0,
     service: TodoService = Depends()
     ) -> list[TodoDTO]:
-    return [TodoDTO.model_validate(todo) for todo in service.get_todos(limit, offset)]
+    return service.get_todos(limit, offset)
 
 
 @router.get(
         "/{todo_id}",
-        response_model=TodoDTO,
         responses={404: {"description": "Not found"}}
         )
 def read_todo(
     todo_id: UUID,
     service: TodoService = Depends()
     ) -> TodoDTO:
-    return TodoDTO.model_validate(service.get_todo(todo_id))
+    return service.get_todo(todo_id)
 
 
 @router.post("/", status_code=201, response_model=TodoDTO)
@@ -36,7 +35,7 @@ def create_todo(
     body: TodoCreateDTO,
     service: TodoService = Depends()
     ) -> TodoDTO:
-    return TodoDTO.model_validate(service.create_todo(body))
+    return service.create_todo(body)
 
 
 @router.put(
@@ -49,7 +48,7 @@ def update_todo(
     body: TodoUpdateDTO,
     service: TodoService = Depends()
     ) -> TodoDTO:
-    return TodoDTO.model_validate(service.update_todo(todo_id, body))
+    return service.update_todo(todo_id, body)
 
 
 @router.delete(
