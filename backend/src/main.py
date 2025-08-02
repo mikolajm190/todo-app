@@ -4,8 +4,8 @@ from fastapi import FastAPI
 from sqlalchemy import text
 
 from src.api import todos
-from src.db.session import engine
 from src.db.init_db import create_tables, insert_test_data
+from src.db.session import engine
 
 
 @asynccontextmanager
@@ -16,6 +16,7 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         print("Failed to create tables", e)
     yield
+
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(todos.router, prefix="/api/v1/todos", tags=["Todos"])

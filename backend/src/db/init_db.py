@@ -1,6 +1,6 @@
 from sqlalchemy import inspect
 
-from src.db.session import engine, SessionLocal
+from src.db.session import SessionLocal, engine
 from src.models.base import Base
 from src.models.todo import Todo
 

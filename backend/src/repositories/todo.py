@@ -14,7 +14,7 @@ class TodoDAO:
 
     def get_by_id(self, todo_id: UUID) -> Todo | None:
         return self.session.get(Todo, todo_id)
-    
+
     def get_all(self, limit: int, offset: int, done: bool | None) -> list[Todo]:
         conditions = []
         if done is not None:
@@ -29,16 +29,17 @@ class TodoDAO:
         )
         todos = self.session.execute(query)
         return list(todos.scalars().all())
-    
+
     def create(self, title: str, description: str | None) -> Todo:
         todo = Todo(title=title, description=description)
         self.session.add(todo)
         self.session.commit()
         self.session.refresh(todo)
         return todo
-    
-    def update(self, todo_id: UUID, title: str,
-               description: str | None, done: bool) -> Todo | None:
+
+    def update(
+        self, todo_id: UUID, title: str, description: str | None, done: bool
+    ) -> Todo | None:
         todo = self.session.get(Todo, todo_id)
         if todo:
             todo.title = title
@@ -46,7 +47,7 @@ class TodoDAO:
             todo.done = done
         self.session.commit()
         return todo
-    
+
     def delete(self, todo_id: UUID) -> bool:
         todo = self.session.get(Todo, todo_id)
         if todo is None:
