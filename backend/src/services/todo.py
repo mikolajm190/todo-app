@@ -15,29 +15,29 @@ class TodoService:
     def __init__(self, dao: TodoDAO = Depends()) -> None:
         self.dao = dao
 
-    def get_todos(self, limit: int, offset: int) -> list[Todo]:
-        return self.dao.get_all(limit, offset)
+    def get_todos(self, limit: int, offset: int) -> list[TodoDTO]:
+        return [TodoDTO.model_validate(todo) for todo in self.dao.get_all(limit, offset)]
     
-    def get_todo(self, todo_id: UUID) -> Todo:
+    def get_todo(self, todo_id: UUID) -> TodoDTO:
         todo = self.dao.get_by_id(todo_id)
         if not todo:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Not found"
             )
-        return todo
+        return TodoDTO.model_validate(todo)
     
-    def create_todo(self, body: TodoCreateDTO) -> Todo:
-        return self.dao.create(**body.model_dump())
+    def create_todo(self, body: TodoCreateDTO) -> TodoDTO:
+        return TodoDTO.model_validate(self.dao.create(**body.model_dump()))
         
-    def update_todo(self, todo_id: UUID, body: TodoUpdateDTO) -> Todo:
+    def update_todo(self, todo_id: UUID, body: TodoUpdateDTO) -> TodoDTO:
         todo = self.dao.update(todo_id, **body.model_dump())
         if not todo:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Not found"
             )
-        return todo
+        return TodoDTO.model_validate(todo)
     
     def delete_todo(self, todo_id: UUID) -> None:
         is_deleted = self.dao.delete(todo_id)

@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class TodoDTO(BaseModel):
@@ -8,3 +8,5 @@ class TodoDTO(BaseModel):
     title: str
     description: str | None
     done: bool
+
+    model_config = ConfigDict(from_attributes=True)
