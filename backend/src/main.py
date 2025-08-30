@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from sqlalchemy import text
 
 from src.api import todos
+from src.api import auth
 from src.db.init_db import create_tables, insert_test_data
 from src.db.session import engine
 
@@ -20,6 +21,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 app.include_router(todos.router, prefix="/api/v1/todos", tags=["Todos"])
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["Auth"])
 
 
 @app.get("/")
